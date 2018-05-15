@@ -146,3 +146,56 @@ def proccess_csv():
 
 
 # proccess_csv()
+
+
+
+# Write a python scirpt to add users to your demo account given a
+# CSV file of the user's info
+# Practicing parsing out a CSV file and inputting those values
+# Into an API payload.
+
+import sys
+import os
+import requests
+import csv
+import json
+
+base_url = 'https://api.pagerduty.com/users'
+
+def parse_csv():
+    """Parse user info from CSV file"""
+
+    with open(user_info) as csvfile:
+        user_info = csv.reader(csvfile, quotechar=',')
+        for row in user_info:
+            name = row[0]
+            email = row[1]
+            account_type = row[2]
+            phone_number = row[3]
+            notification_type = row[4]
+
+            user = create_user(name, email, account_type)
+
+
+def create_user(name, email, account_type):
+    """Creates a PD user using info from a csv file"""
+
+    user_info = sys.argv[1]
+
+    authorization_token = os.environ.get('API_KEY')
+
+    headers = {
+        'Content-Type': 'application/json',
+        'From': 'jessi.ditocco@gmail.com',
+        'Authorization': 'Token token=' + authorization_token,
+        'Accept': 'application/vnd.pagerduty+json;version=2'
+        }
+    
+    payload = {'type': user, 'name': name, 'email': email}
+
+    pd_session = requests.Session()
+
+    request = pd_session.post(base_url, headers=headers, data=json.dumps(payload))
+
+    print request.json()
+
