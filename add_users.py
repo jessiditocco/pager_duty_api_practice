@@ -3,10 +3,6 @@ import json
 import requests
 import csv
 
-api_key='wGYXckCvnLAWa_B6zj2m'
-user_info = sys.argv[1]
-base_url = 'https://api.pagerduty.com/users'
-
 
 def parse_csv(user_info):
     """Parses a CSV file of user data"""
@@ -44,5 +40,9 @@ def create_user(name, email, type='user'):
 
 
 if __name__ == "__main__":
-    
-parse_csv(user_info)
+
+    api_key='wGYXckCvnLAWa_B6zj2m'
+    user_info = sys.argv[1]
+    base_url = 'https://api.pagerduty.com/users'
+
+    parse_csv(user_info)
