@@ -41,3 +41,5 @@ def get_user_by_id(user_id):
     print data
 
     return data
+
+get_user_by_id('PRS2BTV')
