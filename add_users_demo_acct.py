@@ -30,9 +30,16 @@ def proccess_csv():
             address = user_info[3]
             contact_type = user_info[4]
 
+
+            # Create a new User
+            new_user_id = create_user(name, email, account_type)
+
             # Add contact methods
 
+            contact_method = None
+
             if contact_type == "email":
+                print "EMAIL IF BLOCK"
                 contact_method = {"contact_method": {
                     "type": "email_contact_method",
                     "label": "Work",
@@ -40,17 +47,15 @@ def proccess_csv():
                     }
                     }
             elif contact_type == "phone":
+                print "PHONE ELIF BLOCK"
                 contact_method = {"contact_method": {
                 "type": "phone_contact_method",
                 "label": "Work",
                 "address": address
                 }}
 
-            # Create a new User
-            new_user_id = create_user(name, email, account_type)
-
             
-            create_user_contact_method(new_user_id, address, contact_method)
+            create_user_contact_method(new_user_id, contact_method)
 
 
 def create_user(name, email, account_type):
@@ -77,7 +82,7 @@ def create_user(name, email, account_type):
     return new_user_id
 
 
-def create_user_contact_method(new_user_id, address, contact_method):
+def create_user_contact_method(new_user_id, contact_method):
     """Creates a contact method based on user_id"""
 
     headers = {
@@ -89,11 +94,13 @@ def create_user_contact_method(new_user_id, address, contact_method):
     url = pd_base_url + "/users/{}/contact_methods".format(new_user_id)
 
 
+    # print headers
+    # print url
+    # print json.dumps(contact_method)
 
     r = requests.post(url, data=json.dumps(contact_method), headers=headers)
 
     print r.json()
-
 
 
 
